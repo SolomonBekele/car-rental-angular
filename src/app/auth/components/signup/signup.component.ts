@@ -7,6 +7,9 @@ import {NzLayoutModule} from 'ng-zorro-antd/layout';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule,FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { error } from 'console';
+import { AuthService } from '../../services/auth/auth.service';
+import {NzMessageService} from 'ng-zorro-antd/message'
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -27,7 +30,10 @@ export class SignupComponent {
   isSpinning: boolean = false
   signUpForm !:FormGroup;
 
-  constructor(private fb:FormBuilder) {
+  constructor(private fb:FormBuilder,
+    private authService:AuthService,
+    private message :NzMessageService,
+    private router : Router) {
   
   }
 
@@ -55,6 +61,19 @@ export class SignupComponent {
   
 
   register(){
-    console.log(this.signUpForm.value)
+    console.log(this.signUpForm.value);
+    this.authService.register(this.signUpForm.value)
+    // .subscribe((res)=>{
+    //   console.log(res);
+    //   if (res.id != null){
+    //     this.message.success("Signup successful",{nzDuration:5000})
+    //     this.router.navigateByUrl("/login")
+    //   }else{
+    //     this.message.error("Something wwent wrong",{nzDuration:5000})
+    //   }
+
+    // })
+    
+  
   }
 }
